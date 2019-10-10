@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>test javaScript</title>
+<script>
+	var color_fond = "black";
+	var color_txt  = "white";
+	var long_aiguille = 40;
+	var largeur = 500;
+	var hauteur = 500;
+
+
+
+</script>
+
+</head>
+<body>
+
+
+<canvas id="horloge"> </canvas>
+
+<button onclick="do_backg( );" >faire le fond</button> 
+<button onclick="aff_clock( );" >start</button> 
+
+
+<script>
+
+function do_backg( ) 
+{
+	var canvas = document.getElementById("horloge");
+	var ctx = canvas.getContext("2d");
+	ctx.fillStyle = color_fond;
+	ctx.fillRect(1, 1, largeur, hauteur);
+}
+
+
+function aff_clock( )
+{
+	
+
+   	timer = setInterval(function() {
+	   	var date = new Date();
+		var canvas = document.getElementById("horloge");
+		var ctx = canvas.getContext("2d");
+		var x_centre = 50;
+		var y_centre = 50;
+
+		//ctx.fillStyle = "red";
+		//ctx.fillRect(10, 24, 122, 30);
+		ctx.fillStyle = color_fond;
+		ctx.fillRect(1, 1, largeur, hauteur);
+		
+		ctx.font = "20px Arial";
+		ctx.fillStyle = color_txt;
+		var dateString =("00" + date.getHours()).slice(-2) + ":" + 
+		    			 ("00" + date.getMinutes()).slice(-2) + ":" + 
+		                 ("00" + date.getSeconds()).slice(-2) ;
+		ctx.fillText(dateString, 10, 50);	 
+
+
+
+
+
+		// heure
+		var angle_en_radian = (date.getHours()*60 + date.getMinutes())*(3.14159*2/720)-(3.14159/2);
+		var x_pique =  Math.round(( Math.cos( angle_en_radian) * long_aiguille * 0.7));
+		var y_pique =  Math.round(( Math.sin( angle_en_radian) * long_aiguille* 0.7 ));
+		
+		ctx.strokeStyle = "#FF0000";
+		ctx.fillStyle = "white";
+		ctx.fillRect( 	x_centre + x_pique-3,
+						y_centre + y_pique-3, 6, 6);
+		ctx.beginPath();
+		ctx.moveTo(x_centre, y_centre);
+		ctx.lineTo(x_centre + x_pique, y_centre + y_pique);
+		ctx.stroke(); 
+
+		// minutes
+		var angle_en_radian = date.getMinutes()*(3.14159*2/60)-(3.14159/2);
+		var x_pique =  Math.round(( Math.cos( angle_en_radian) * long_aiguille * 0.9));
+		var y_pique =  Math.round(( Math.sin( angle_en_radian) * long_aiguille* 0.9 ));
+		
+		ctx.strokeStyle = "#FF0000";
+		ctx.fillStyle = "white";
+		ctx.fillRect( 	x_centre + x_pique-3,
+						y_centre + y_pique-3, 6, 6);
+		ctx.beginPath();
+		ctx.moveTo(x_centre, y_centre);
+		ctx.lineTo(x_centre + x_pique, y_centre + y_pique);
+		ctx.stroke(); 
+
+		
+		// secondes
+		var angle_en_radian = (date.getSeconds()*1000+date.getMilliseconds())*(3.14159*2/60000)-(3.14159/2);
+		var x_pique =  Math.round(( Math.cos( angle_en_radian) * long_aiguille));
+		var y_pique =  Math.round(( Math.sin( angle_en_radian) * long_aiguille));
+		
+		ctx.strokeStyle = "#FF0000";
+		ctx.fillStyle = "white";
+		//ctx.fillRect( 	x_centre + x_pique-3,						y_centre + y_pique-3, 4, 4);
+		ctx.beginPath();
+		ctx.moveTo(x_centre, y_centre);
+		ctx.lineTo(x_centre + x_pique, y_centre + y_pique);
+		ctx.stroke(); 
+
+     
+    },100	);
+}
+
+
+
+
+</script>
+
+
+</body>
+</html>
